@@ -1,0 +1,443 @@
+{
+  "backend/src/main/java/com/example/billing/AuthController.java": [
+    {
+      "Kind": "java-type",
+      "Name": "AuthController",
+      "File": "backend/src/main/java/com/example/billing/AuthController.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "RestController,RequestMapping",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "org.springframework.beans.factory.annotation.Autowired",
+        "org.springframework.web.bind.annotation.*"
+      ]
+    },
+    {
+      "Kind": "spring-route",
+      "Name": "login",
+      "File": "backend/src/main/java/com/example/billing/AuthController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "controller": "AuthController",
+        "handler": "login",
+        "method": "POST",
+        "path": "/auth/login"
+      },
+      "Refs": null
+    },
+    {
+      "Kind": "spring-restcontroller",
+      "Name": "AuthController",
+      "File": "backend/src/main/java/com/example/billing/AuthController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "basePath": "/auth",
+        "dep:authService": "AuthService",
+        "stereotype": "RestController"
+      },
+      "Refs": [
+        "authService"
+      ]
+    }
+  ],
+  "backend/src/main/java/com/example/billing/AuthService.java": [
+    {
+      "Kind": "java-type",
+      "Name": "AuthService",
+      "File": "backend/src/main/java/com/example/billing/AuthService.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "Service",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "org.springframework.stereotype.Service"
+      ]
+    },
+    {
+      "Kind": "spring-service",
+      "Name": "AuthService",
+      "File": "backend/src/main/java/com/example/billing/AuthService.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "stereotype": "Service"
+      },
+      "Refs": null
+    }
+  ],
+  "backend/src/main/java/com/example/billing/BillingController.java": [
+    {
+      "Kind": "java-type",
+      "Name": "BillingController",
+      "File": "backend/src/main/java/com/example/billing/BillingController.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "RestController,RequestMapping",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "org.springframework.beans.factory.annotation.Autowired",
+        "org.springframework.web.bind.annotation.*",
+        "java.util.List"
+      ]
+    },
+    {
+      "Kind": "spring-route",
+      "Name": "listInvoices",
+      "File": "backend/src/main/java/com/example/billing/BillingController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "controller": "BillingController",
+        "handler": "listInvoices",
+        "method": "GET",
+        "path": "/billing/invoices"
+      },
+      "Refs": null
+    },
+    {
+      "Kind": "spring-route",
+      "Name": "getInvoice",
+      "File": "backend/src/main/java/com/example/billing/BillingController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "controller": "BillingController",
+        "handler": "getInvoice",
+        "method": "GET",
+        "path": "/billing/invoices/{id}"
+      },
+      "Refs": null
+    },
+    {
+      "Kind": "spring-route",
+      "Name": "createInvoice",
+      "File": "backend/src/main/java/com/example/billing/BillingController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "controller": "BillingController",
+        "handler": "createInvoice",
+        "method": "POST",
+        "path": "/billing/invoices"
+      },
+      "Refs": null
+    },
+    {
+      "Kind": "spring-restcontroller",
+      "Name": "BillingController",
+      "File": "backend/src/main/java/com/example/billing/BillingController.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "basePath": "/billing",
+        "dep:billingService": "BillingService",
+        "stereotype": "RestController"
+      },
+      "Refs": [
+        "billingService"
+      ]
+    }
+  ],
+  "backend/src/main/java/com/example/billing/BillingRepository.java": [
+    {
+      "Kind": "java-type",
+      "Name": "BillingRepository",
+      "File": "backend/src/main/java/com/example/billing/BillingRepository.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "Repository",
+        "declKind": "interface",
+        "extends": "JpaRepository\u003cInvoice, Long\u003e",
+        "implements": ""
+      },
+      "Refs": [
+        "org.springframework.data.jpa.repository.JpaRepository",
+        "org.springframework.stereotype.Repository",
+        "JpaRepository",
+        "Long\u003e"
+      ]
+    },
+    {
+      "Kind": "spring-repository",
+      "Name": "BillingRepository",
+      "File": "backend/src/main/java/com/example/billing/BillingRepository.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "stereotype": "Repository"
+      },
+      "Refs": null
+    }
+  ],
+  "backend/src/main/java/com/example/billing/BillingService.java": [
+    {
+      "Kind": "java-type",
+      "Name": "BillingService",
+      "File": "backend/src/main/java/com/example/billing/BillingService.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "Service",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "org.springframework.beans.factory.annotation.Autowired",
+        "org.springframework.stereotype.Service",
+        "java.util.List"
+      ]
+    },
+    {
+      "Kind": "spring-service",
+      "Name": "BillingService",
+      "File": "backend/src/main/java/com/example/billing/BillingService.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "dep:billingRepository": "BillingRepository",
+        "stereotype": "Service"
+      },
+      "Refs": [
+        "billingRepository"
+      ]
+    }
+  ],
+  "backend/src/main/java/com/example/billing/Customer.java": [
+    {
+      "Kind": "java-type",
+      "Name": "Customer",
+      "File": "backend/src/main/java/com/example/billing/Customer.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "Entity,Table",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "javax.persistence.Entity",
+        "javax.persistence.Id",
+        "javax.persistence.Table"
+      ]
+    },
+    {
+      "Kind": "spring-entity",
+      "Name": "Customer",
+      "File": "backend/src/main/java/com/example/billing/Customer.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "relatesTo": "",
+        "stereotype": "Entity",
+        "table": "customers"
+      },
+      "Refs": null
+    }
+  ],
+  "backend/src/main/java/com/example/billing/Invoice.java": [
+    {
+      "Kind": "java-type",
+      "Name": "Invoice",
+      "File": "backend/src/main/java/com/example/billing/Invoice.java",
+      "Package": "com.example.billing",
+      "Language": "Java",
+      "Attributes": {
+        "annotations": "Entity,Table",
+        "declKind": "class",
+        "extends": "",
+        "implements": ""
+      },
+      "Refs": [
+        "javax.persistence.Column",
+        "javax.persistence.Entity",
+        "javax.persistence.Id",
+        "javax.persistence.Table",
+        "java.math.BigDecimal"
+      ]
+    },
+    {
+      "Kind": "spring-entity",
+      "Name": "Invoice",
+      "File": "backend/src/main/java/com/example/billing/Invoice.java",
+      "Package": "",
+      "Language": "Java",
+      "Attributes": {
+        "relatesTo": "Customer",
+        "stereotype": "Entity",
+        "table": "invoices"
+      },
+      "Refs": null
+    }
+  ],
+  "backend/src/main/resources/schema.sql": [
+    {
+      "Kind": "sql-table",
+      "Name": "customers",
+      "File": "backend/src/main/resources/schema.sql",
+      "Package": "",
+      "Language": "SQL",
+      "Attributes": {
+        "column:email": "VARCHAR(255):0:",
+        "column:id": "BIGINT:1:",
+        "column:name": "VARCHAR(255):0:",
+        "columnCount": "3"
+      },
+      "Refs": null
+    },
+    {
+      "Kind": "sql-table",
+      "Name": "invoices",
+      "File": "backend/src/main/resources/schema.sql",
+      "Package": "",
+      "Language": "SQL",
+      "Attributes": {
+        "column:amount": "DECIMAL(10, 2):0:",
+        "column:customer_id": "BIGINT:0:",
+        "column:customer_name": "VARCHAR(255):0:",
+        "column:id": "BIGINT:1:",
+        "columnCount": "4"
+      },
+      "Refs": [
+        "customers"
+      ]
+    }
+  ],
+  "docker-compose.yml": [
+    {
+      "Kind": "docker-service",
+      "Name": "backend",
+      "File": "docker-compose.yml",
+      "Package": "",
+      "Language": "Docker",
+      "Attributes": {
+        "image": "",
+        "ports": "8080:8080"
+      },
+      "Refs": [
+        "db"
+      ]
+    },
+    {
+      "Kind": "docker-service",
+      "Name": "frontend",
+      "File": "docker-compose.yml",
+      "Package": "",
+      "Language": "Docker",
+      "Attributes": {
+        "image": "",
+        "ports": "5173:5173"
+      },
+      "Refs": [
+        "backend"
+      ]
+    },
+    {
+      "Kind": "docker-service",
+      "Name": "db",
+      "File": "docker-compose.yml",
+      "Package": "",
+      "Language": "Docker",
+      "Attributes": {
+        "image": "postgres:16",
+        "ports": "5432:5432"
+      },
+      "Refs": null
+    }
+  ],
+  "frontend/package.json": [
+    {
+      "Kind": "node-module",
+      "Name": "billing-frontend",
+      "File": "frontend/package.json",
+      "Package": "",
+      "Language": "Node",
+      "Attributes": {
+        "scripts": "build,dev"
+      },
+      "Refs": [
+        "axios",
+        "react",
+        "react-dom",
+        "react-router-dom"
+      ]
+    }
+  ],
+  "frontend/src/components/InvoiceList.tsx": [
+    {
+      "Kind": "react-component",
+      "Name": "InvoiceList",
+      "File": "frontend/src/components/InvoiceList.tsx",
+      "Package": "",
+      "Language": "TypeScript/JavaScript",
+      "Attributes": {
+        "apiCalls": "",
+        "hooks": ""
+      },
+      "Refs": null
+    }
+  ],
+  "frontend/src/hooks/useBilling.ts": [
+    {
+      "Kind": "react-hook",
+      "Name": "useBilling",
+      "File": "frontend/src/hooks/useBilling.ts",
+      "Package": "",
+      "Language": "TypeScript/JavaScript",
+      "Attributes": {
+        "apiCalls": "/billing/invoices"
+      },
+      "Refs": [
+        "react",
+        "axios"
+      ]
+    }
+  ],
+  "frontend/src/pages/BillingPage.tsx": [
+    {
+      "Kind": "react-component",
+      "Name": "BillingPage",
+      "File": "frontend/src/pages/BillingPage.tsx",
+      "Package": "",
+      "Language": "TypeScript/JavaScript",
+      "Attributes": {
+        "apiCalls": "",
+        "hooks": "useBilling"
+      },
+      "Refs": [
+        "../hooks/useBilling",
+        "../components/InvoiceList"
+      ]
+    }
+  ],
+  "frontend/vite.config.ts": [
+    {
+      "Kind": "vite-config",
+      "Name": "vite",
+      "File": "frontend/vite.config.ts",
+      "Package": "",
+      "Language": "Config",
+      "Attributes": {
+        "plugins": "react()"
+      },
+      "Refs": null
+    }
+  ]
+}

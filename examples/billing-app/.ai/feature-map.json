@@ -1,0 +1,57 @@
+[
+  {
+    "feature": "Auth",
+    "backend": [
+      "AuthController",
+      "AuthService"
+    ],
+    "apis": [
+      "/auth/login"
+    ]
+  },
+  {
+    "feature": "Billing",
+    "frontend": [
+      "BillingPage"
+    ],
+    "backend": [
+      "BillingController",
+      "BillingRepository",
+      "BillingService"
+    ],
+    "apis": [
+      "/billing/invoices",
+      "/billing/invoices/{id}"
+    ]
+  },
+  {
+    "feature": "Customer",
+    "backend": [
+      "Customer"
+    ],
+    "database": [
+      "customers"
+    ]
+  },
+  {
+    "feature": "Invoice",
+    "backend": [
+      "Invoice"
+    ],
+    "database": [
+      "invoices"
+    ]
+  },
+  {
+    "feature": "Invoicelist",
+    "frontend": [
+      "InvoiceList"
+    ]
+  },
+  {
+    "feature": "Usebilling",
+    "frontend": [
+      "useBilling"
+    ]
+  }
+]

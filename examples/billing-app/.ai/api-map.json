@@ -1,0 +1,30 @@
+[
+  {
+    "method": "POST",
+    "path": "/auth/login",
+    "controller": "AuthController",
+    "handler": "login",
+    "file": "backend/src/main/java/com/example/billing/AuthController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/billing/invoices",
+    "controller": "BillingController",
+    "handler": "listInvoices",
+    "file": "backend/src/main/java/com/example/billing/BillingController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/billing/invoices",
+    "controller": "BillingController",
+    "handler": "createInvoice",
+    "file": "backend/src/main/java/com/example/billing/BillingController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/billing/invoices/{id}",
+    "controller": "BillingController",
+    "handler": "getInvoice",
+    "file": "backend/src/main/java/com/example/billing/BillingController.java"
+  }
+]

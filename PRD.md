@@ -392,6 +392,40 @@ Examples:
 * Docker Plugin
 * SQL Plugin
 
+## Plugin Loading Strategy (Implementation Note)
+
+Go's native `plugin` package (dynamically loaded `.so`/`.dll` files) does **not**
+support Windows and is fragile across Go versions, which conflicts with the
+cross-platform requirement in Section "Target Platform".
+
+Instead, plugins are implemented as ordinary Go packages under `plugins/`,
+compiled directly into the `repo-mapper` binary, and self-register into a
+static, in-memory `plugin.Registry` via an `init()` function:
+
+```go
+func init() {
+    plugin.Register(New())
+}
+```
+
+The core engine only ever depends on the `Plugin` interface and the registry —
+never on a concrete plugin package — preserving the "core must not know
+framework specifics" principle while remaining fully cross-platform and
+single-binary. True dynamic/out-of-process plugin loading (e.g. via
+subprocess + RPC, similar to HashiCorp's `go-plugin`) is deferred to a later
+roadmap phase if third-party plugin distribution becomes a requirement.
+
+## Parsing Strategy (Implementation Note)
+
+Phase 1 plugins (Java, Spring, React, Vite, Node, Docker, SQL) use fast,
+deterministic regex/heuristic-based parsing rather than full language ASTs.
+This keeps the tool dependency-light and fast, and is sufficient to extract
+the structural signals needed (annotations, imports, JSX component usage,
+route decorators, etc.). Full AST-based parsing (e.g. via a proper Java
+grammar or TypeScript compiler API) is a candidate upgrade in later phases
+once accuracy requirements demand it. LLM usage still never substitutes for
+this deterministic extraction, per Section 3.
+
 ---
 
 # 12. Analyzer
@@ -633,12 +667,16 @@ Store
 * parsed entities
 * plugin metadata
 
+Consistent with the "Stateless" principle (Section 3: no database, only
+lightweight cache files), the cache is plain JSON on disk — no embedded
+database engine.
+
 Example:
 
 ```
 .cache/
 
-    parser.db
+    entities.json
 
     hashes.json
 

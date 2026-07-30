@@ -1,0 +1,16 @@
+{
+  "backend/src/main/java/com/example/billing/AuthController.java": "d42137d1706b916215a28b388543a104c3a28f1e39e55deb2cd5a03f94971289",
+  "backend/src/main/java/com/example/billing/AuthService.java": "ab75297aa5a53c82eff3ebac93291bec3fcac94e3d2b5f3e9ea333a6566f3179",
+  "backend/src/main/java/com/example/billing/BillingController.java": "8450e4ca3c0709b2040758558c4183dd8118d7d8bec8fa1795480f78fbe4e466",
+  "backend/src/main/java/com/example/billing/BillingRepository.java": "5cd7ac870267002a257f907ee832913899f0b4ef92cf5d18c21544db8302cfef",
+  "backend/src/main/java/com/example/billing/BillingService.java": "8653186fc806ff446ee30636388ed7eeebcc66c0e4cd07bc6b55beacb2293011",
+  "backend/src/main/java/com/example/billing/Customer.java": "32f4c484dfd611fbaf25e1cb9776223b61b4cb757a3e8ed3538b8868e2dffc17",
+  "backend/src/main/java/com/example/billing/Invoice.java": "8412c5f53e60e8737f58bfca7b6fb8d1209c8b40d1322a181a30139328c24ab0",
+  "backend/src/main/resources/schema.sql": "90300a89ff9254a8b00e29b86bc4a6d1e92c90f980da386a15e567fd9c5c0743",
+  "docker-compose.yml": "4fbbaeeabeb2a239ff2911b980304bd847720d7ef81411aa2bb440cd5ebbf3b0",
+  "frontend/package.json": "90959d647ad161b615debbe3b347bca6a9472df7ed6029f8e7451cf2144fd064",
+  "frontend/src/components/InvoiceList.tsx": "a249bf6ea762f6f9dba85b33428a89e1f972c3b4d201cb520d790df45bdd5236",
+  "frontend/src/hooks/useBilling.ts": "a27a9dea1174395258a1d8796ba148df95461aca4c78897db2dcda68000ce1e2",
+  "frontend/src/pages/BillingPage.tsx": "f945feea569202c23c60c2477381cee8a2dcd04d4985cf4cc4fb113f2ff706c4",
+  "frontend/vite.config.ts": "cc7bbf633fb8eca24dee5c645027f8741d1a79e8ae84734965bf21cb3cc406ea"
+}
