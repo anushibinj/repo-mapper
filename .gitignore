@@ -30,7 +30,3 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
-
-# Repo Mapper's own cache (performance-only, not meant to be versioned;
-# .repo-mapper/ output IS meant to be committed per PRD section 20 CI/CD workflow)
-.cache/

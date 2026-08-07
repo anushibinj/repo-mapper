@@ -12,12 +12,12 @@ func runClean(args []string) error {
 		return err
 	}
 
-	repoRoot, err := resolveRepoRoot(*root)
+	repoRoot, cfg, _, err := loadContext(*root)
 	if err != nil {
 		return err
 	}
 
-	dir := cache.Dir(repoRoot)
+	dir := cache.Dir(repoRoot, cfg.Output.Directory)
 	if err := cache.Clean(dir); err != nil {
 		return fmt.Errorf("clean: %w", err)
 	}

@@ -62,7 +62,7 @@ func Default() *Config {
 	return &Config{
 		Scan: ScanConfig{
 			Exclude: []string{
-				"node_modules", "build", "dist", "target", ".git", ".repo-mapper", ".cache",
+				"node_modules", "build", "dist", "target", ".git", ".repo-mapper",
 				"vendor", "bin", "obj", ".idea", ".vscode",
 			},
 			Workers: 0, // 0 => runtime.NumCPU() * 2, resolved by the scanner

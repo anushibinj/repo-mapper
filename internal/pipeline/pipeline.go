@@ -43,7 +43,7 @@ func FullScan(repoRoot string, cfg *config.Config, log *logger.Logger) (*Result,
 	// Ensure the cache directory is gitignored before anything writes to it.
 	// This is a convenience, not a hard requirement, so a failure here is
 	// logged and never fails the scan.
-	if err := cache.EnsureIgnored(repoRoot); err != nil && log != nil {
+	if err := cache.EnsureIgnored(repoRoot, cfg.Output.Directory); err != nil && log != nil {
 		log.Warn("failed to update .gitignore for cache directory", "error", err)
 	}
 
@@ -57,7 +57,7 @@ func FullScan(repoRoot string, cfg *config.Config, log *logger.Logger) (*Result,
 		return nil, fmt.Errorf("scan: %w", err)
 	}
 
-	c, err := cache.Load(cache.Dir(repoRoot))
+	c, err := cache.Load(cache.Dir(repoRoot, cfg.Output.Directory))
 	if err != nil {
 		return nil, fmt.Errorf("load cache: %w", err)
 	}
@@ -124,7 +124,7 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 	// Ensure the cache directory is gitignored before anything writes to it.
 	// This is a convenience, not a hard requirement, so a failure here is
 	// logged and never fails the update.
-	if err := cache.EnsureIgnored(repoRoot); err != nil && log != nil {
+	if err := cache.EnsureIgnored(repoRoot, cfg.Output.Directory); err != nil && log != nil {
 		log.Warn("failed to update .gitignore for cache directory", "error", err)
 	}
 
@@ -139,7 +139,7 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 		return nil, fmt.Errorf("%w: %v", ErrGitDiffFailed, err)
 	}
 
-	c, err := cache.Load(cache.Dir(repoRoot))
+	c, err := cache.Load(cache.Dir(repoRoot, cfg.Output.Directory))
 	if err != nil {
 		return nil, fmt.Errorf("load cache: %w", err)
 	}
@@ -153,8 +153,8 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 
 		// A raw `git diff` file list bypasses Scan's exclude/.gitignore
 		// rules entirely. Without this check, Repo Mapper's own output
-		// (.repo-mapper/) and cache (.cache/) files — modified by the very last run
-		// — would show up as "changed" on the next `update`, wastefully
+		// (.repo-mapper/) files — modified by the very last run — would
+		// show up as "changed" on the next `update`, wastefully
 		// reprocessing them (and, since they contain hashes that change
 		// every run, causing them to reappear as "changed" forever).
 		if ignoreMatcher.Matches(relPath, false) {

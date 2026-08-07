@@ -113,8 +113,8 @@ func (m *ignoreMatcher) matches(relPath string, isDir bool) bool {
 // IgnoreMatcher is the exported form of ignoreMatcher, usable outside this
 // package. The incremental-update pipeline needs it to filter a raw `git
 // diff` file list through the same exclude/.gitignore rules a full Scan
-// applies, so cache/output artifacts (.cache/, .repo-mapper/, etc.) never get
-// reprocessed as if they were source changes.
+// applies, so output artifacts (.repo-mapper/, including its cache/ sub-dir)
+// never get reprocessed as if they were source changes.
 type IgnoreMatcher struct {
 	m *ignoreMatcher
 }

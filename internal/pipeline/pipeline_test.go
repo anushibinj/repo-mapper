@@ -157,8 +157,8 @@ func TestFullScan_BillingAppExample(t *testing.T) {
 
 // TestFullScan_AutomaticallyGitignoresCacheDirectory verifies that running
 // a scan on a fresh repository (with no .gitignore yet) automatically
-// creates one covering the cache directory, so nobody has to remember to
-// exclude .cache/ from version control by hand.
+// creates .repo-mapper/.gitignore covering the cache sub-directory, so
+// nobody has to remember to exclude it from version control by hand.
 func TestFullScan_AutomaticallyGitignoresCacheDirectory(t *testing.T) {
 	dir := t.TempDir()
 	if err := os.WriteFile(filepath.Join(dir, "README.md"), []byte("# test\n"), 0o644); err != nil {
@@ -170,11 +170,11 @@ func TestFullScan_AutomaticallyGitignoresCacheDirectory(t *testing.T) {
 		t.Fatalf("FullScan failed: %v", err)
 	}
 
-	data, err := os.ReadFile(filepath.Join(dir, ".gitignore"))
+	data, err := os.ReadFile(filepath.Join(dir, ".repo-mapper", ".gitignore"))
 	if err != nil {
-		t.Fatalf("expected .gitignore to be created automatically: %v", err)
+		t.Fatalf("expected .repo-mapper/.gitignore to be created automatically: %v", err)
 	}
-	if !strings.Contains(string(data), ".cache/") {
-		t.Errorf("expected auto-created .gitignore to cover .cache/, got:\n%s", data)
+	if !strings.Contains(string(data), "cache/") {
+		t.Errorf("expected auto-created .gitignore to cover cache/, got:\n%s", data)
 	}
 }

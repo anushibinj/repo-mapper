@@ -28,9 +28,12 @@ type Cache struct {
 	Entities map[string][]model.Entity `json:"entities"`
 }
 
-// Dir returns the cache directory conventionally used under a repo root.
-func Dir(repoRoot string) string {
-	return filepath.Join(repoRoot, ".cache")
+// Dir returns the cache directory located inside outputDir under the repo root.
+// Keeping the cache inside the output directory (e.g. ".repo-mapper/cache/")
+// avoids polluting the repository root and relies on the output directory
+// already being excluded from scans.
+func Dir(repoRoot, outputDir string) string {
+	return filepath.Join(repoRoot, outputDir, "cache")
 }
 
 // Load reads the cache from dir, returning an empty-but-usable Cache if no
