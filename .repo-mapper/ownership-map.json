@@ -1,1 +1,77 @@
-[]
+[
+  {
+    "component": "AuthController",
+    "kind": "controller",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/AuthController.java",
+    "feature": "Auth"
+  },
+  {
+    "component": "AuthService",
+    "kind": "service",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/AuthService.java",
+    "feature": "Auth"
+  },
+  {
+    "component": "BillingController",
+    "kind": "controller",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/BillingController.java",
+    "feature": "Billing"
+  },
+  {
+    "component": "BillingPage",
+    "kind": "page",
+    "file": "examples/billing-app/frontend/src/pages/BillingPage.tsx",
+    "feature": "Billing"
+  },
+  {
+    "component": "BillingRepository",
+    "kind": "repository",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/BillingRepository.java",
+    "feature": "Billing"
+  },
+  {
+    "component": "BillingService",
+    "kind": "service",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/BillingService.java",
+    "feature": "Billing"
+  },
+  {
+    "component": "Customer",
+    "kind": "entity",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/Customer.java",
+    "feature": "Customer"
+  },
+  {
+    "component": "Invoice",
+    "kind": "entity",
+    "file": "examples/billing-app/backend/src/main/java/com/example/billing/Invoice.java",
+    "feature": "Invoice"
+  },
+  {
+    "component": "InvoiceList",
+    "kind": "component",
+    "file": "examples/billing-app/frontend/src/components/InvoiceList.tsx",
+    "feature": "Invoicelist"
+  },
+  {
+    "component": "backend",
+    "kind": "infra-service",
+    "file": "examples/billing-app/docker-compose.yml"
+  },
+  {
+    "component": "db",
+    "kind": "infra-service",
+    "file": "examples/billing-app/docker-compose.yml"
+  },
+  {
+    "component": "frontend",
+    "kind": "infra-service",
+    "file": "examples/billing-app/docker-compose.yml"
+  },
+  {
+    "component": "useBilling",
+    "kind": "hook",
+    "file": "examples/billing-app/frontend/src/hooks/useBilling.ts",
+    "feature": "Usebilling"
+  }
+]

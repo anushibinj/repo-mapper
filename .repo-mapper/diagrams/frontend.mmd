@@ -1,2 +1,7 @@
 flowchart TD
-    NoFrontend[No frontend components detected]
+    BillingPage[BillingPage]
+    InvoiceList(InvoiceList)
+    useBilling{{useBilling}}
+    REST[[REST API]]
+    BillingPage --> useBilling
+    useBilling --> REST

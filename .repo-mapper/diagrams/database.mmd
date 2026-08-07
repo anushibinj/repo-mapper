@@ -1,2 +1,13 @@
 erDiagram
-    %% No tables detected
+    customers {
+        VARCHAR email
+        BIGINT id
+        VARCHAR name
+    }
+    invoices {
+        DECIMAL amount
+        BIGINT customer_id
+        VARCHAR customer_name
+        BIGINT id
+    }
+    invoices ||--o{ customers : "references"
