@@ -8,8 +8,8 @@ import (
 
 func TestDefault_HasSaneDefaults(t *testing.T) {
 	cfg := Default()
-	if cfg.Output.Directory != ".ai" {
-		t.Errorf("expected default output directory .ai, got %q", cfg.Output.Directory)
+	if cfg.Output.Directory != ".repo-mapper" {
+		t.Errorf("expected default output directory .repo-mapper, got %q", cfg.Output.Directory)
 	}
 	if cfg.LLM.Enabled {
 		t.Error("expected LLM disabled by default")
@@ -39,7 +39,7 @@ func TestLoad_MissingFileReturnsDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Load failed on missing config: %v", err)
 	}
-	if cfg.Output.Directory != ".ai" {
+	if cfg.Output.Directory != ".repo-mapper" {
 		t.Errorf("expected default output directory, got %q", cfg.Output.Directory)
 	}
 }

@@ -495,7 +495,7 @@ Relationships
 ## Markdown
 
 ```
-.ai/
+.repo-mapper/
 
     README.md
 
@@ -515,7 +515,7 @@ Relationships
 ## Mermaid
 
 ```
-.ai/
+.repo-mapper/
 
     diagrams/
 
@@ -535,7 +535,7 @@ Relationships
 ## JSON
 
 ```
-.ai/
+.repo-mapper/
 
     repo-map.json
 
@@ -547,6 +547,14 @@ Relationships
 
     routes.json
 ```
+
+**Amendment (output directory naming):** the output directory is named
+`.repo-mapper/`, not `.ai/`. A generic name like `.ai/` is likely to
+collide with other AI tooling that may write to a repository (there is no
+single, universally-reserved "AI output" convention), and it does not
+identify which tool produced or owns the contents. `.repo-mapper/` is
+unambiguous, self-documenting, and safe to commit alongside output from
+other tools without naming conflicts.
 
 ---
 
@@ -685,6 +693,15 @@ Example:
 
 Avoid reparsing unchanged files.
 
+**Amendment (naming & git hygiene):** the cache directory (`.cache/`) is a
+performance-only artifact and must never be committed — it is distinct
+from the output directory (`.repo-mapper/`, see Section 13), which IS meant
+to be committed as living documentation. To make sure this is never left
+to chance, Repo Mapper automatically ensures `.cache/` is present in the
+repository's `.gitignore` on every `scan`/`update` run, creating the file
+if it doesn't exist or appending the entry if it's missing. This removes
+the need for any project to remember to configure this by hand.
+
 ---
 
 # 17. Incremental Updates
@@ -775,7 +792,7 @@ scan:
 
 output:
 
-  directory: .ai
+  directory: .repo-mapper
 
 llm:
 

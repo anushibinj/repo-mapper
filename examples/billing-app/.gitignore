@@ -1,0 +1,3 @@
+
+# Repo Mapper cache (performance-only, not meant to be versioned)
+.cache/

@@ -47,13 +47,13 @@ func Default() *Config {
 	return &Config{
 		Scan: ScanConfig{
 			Exclude: []string{
-				"node_modules", "build", "dist", "target", ".git", ".ai", ".cache",
+				"node_modules", "build", "dist", "target", ".git", ".repo-mapper", ".cache",
 				"vendor", "bin", "obj", ".idea", ".vscode",
 			},
 			Workers: 0, // 0 => runtime.NumCPU() * 2, resolved by the scanner
 		},
 		Output: OutputConfig{
-			Directory: ".ai",
+			Directory: ".repo-mapper",
 		},
 		LLM: LLMConfig{
 			Enabled: false,

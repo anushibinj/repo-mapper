@@ -1,7 +1,9 @@
 package pipeline_test
 
 import (
+	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/anushibinj/repo-mapper/internal/config"
@@ -150,5 +152,29 @@ func TestFullScan_BillingAppExample(t *testing.T) {
 	}
 	if billingFeature.frontendLen == 0 || billingFeature.backendLen == 0 || billingFeature.apisLen == 0 {
 		t.Errorf("expected Billing feature to span frontend/backend/apis, got %+v", billingFeature)
+	}
+}
+
+// TestFullScan_AutomaticallyGitignoresCacheDirectory verifies that running
+// a scan on a fresh repository (with no .gitignore yet) automatically
+// creates one covering the cache directory, so nobody has to remember to
+// exclude .cache/ from version control by hand.
+func TestFullScan_AutomaticallyGitignoresCacheDirectory(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "README.md"), []byte("# test\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	cfg := config.Default()
+	if _, err := pipeline.FullScan(dir, cfg, logger.Nop()); err != nil {
+		t.Fatalf("FullScan failed: %v", err)
+	}
+
+	data, err := os.ReadFile(filepath.Join(dir, ".gitignore"))
+	if err != nil {
+		t.Fatalf("expected .gitignore to be created automatically: %v", err)
+	}
+	if !strings.Contains(string(data), ".cache/") {
+		t.Errorf("expected auto-created .gitignore to cover .cache/, got:\n%s", data)
 	}
 }

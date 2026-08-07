@@ -32,6 +32,13 @@ type Result struct {
 // registered plugin (skipping re-parse when the cached hash still matches),
 // and builds the canonical Repository model.
 func FullScan(repoRoot string, cfg *config.Config, log *logger.Logger) (*Result, error) {
+	// Ensure the cache directory is gitignored before anything writes to it.
+	// This is a convenience, not a hard requirement, so a failure here is
+	// logged and never fails the scan.
+	if err := cache.EnsureIgnored(repoRoot); err != nil && log != nil {
+		log.Warn("failed to update .gitignore for cache directory", "error", err)
+	}
+
 	files, err := scanner.Scan(scanner.Options{
 		RepoRoot:   repoRoot,
 		Exclude:    cfg.Scan.Exclude,
@@ -106,6 +113,13 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 		return nil, fmt.Errorf("update: %s is not a git repository", repoRoot)
 	}
 
+	// Ensure the cache directory is gitignored before anything writes to it.
+	// This is a convenience, not a hard requirement, so a failure here is
+	// logged and never fails the update.
+	if err := cache.EnsureIgnored(repoRoot); err != nil && log != nil {
+		log.Warn("failed to update .gitignore for cache directory", "error", err)
+	}
+
 	var changed []string
 	var err error
 	if baseRef != "" {
@@ -131,7 +145,7 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 
 		// A raw `git diff` file list bypasses Scan's exclude/.gitignore
 		// rules entirely. Without this check, Repo Mapper's own output
-		// (.ai/) and cache (.cache/) files — modified by the very last run
+		// (.repo-mapper/) and cache (.cache/) files — modified by the very last run
 		// — would show up as "changed" on the next `update`, wastefully
 		// reprocessing them (and, since they contain hashes that change
 		// every run, causing them to reappear as "changed" forever).

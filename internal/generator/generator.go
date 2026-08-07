@@ -13,7 +13,7 @@ import (
 )
 
 // WriteAll renders every JSON, Markdown, and Mermaid artifact into
-// outputDir (conventionally ".ai"), creating subdirectories as needed.
+// outputDir (conventionally ".repo-mapper"), creating subdirectories as needed.
 func WriteAll(repo *model.Repository, outputDir string) error {
 	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		return err
