@@ -144,6 +144,19 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 		return nil, fmt.Errorf("load cache: %w", err)
 	}
 
+	// If there are no changed files and the cache is empty, we have no
+	// information to build the model from. This happens when the cache was
+	// never committed (it is gitignored) and CI runs on a clean checkout
+	// against an already-committed .repo-mapper/ directory. Continuing
+	// would produce an empty model that overwrites valid existing content.
+	// Fall back to a full scan so the cache is (re)populated correctly.
+	if len(changed) == 0 && len(c.Entities) == 0 {
+		if log != nil {
+			log.Info("no changed files and empty cache — falling back to full scan to rebuild cache")
+		}
+		return FullScan(repoRoot, cfg, log)
+	}
+
 	plugins := enabledPlugins(cfg)
 	ignoreMatcher := scanner.NewIgnoreMatcher(repoRoot, cfg.Scan.Exclude, cfg.Scan.IgnoreFile)
 
