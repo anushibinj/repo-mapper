@@ -4,15 +4,7 @@ See [diagrams/system.mmd](diagrams/system.mmd) for the high-level system diagram
 
 ## Layers Detected
 
-- Frontend: yes
-- Backend: yes
-- Database: yes
+- Frontend: no
+- Backend: no
+- Database: no
 
-## Features
-
-- **Auth** — see [features.md](features.md)
-- **Billing** — see [features.md](features.md)
-- **Customer** — see [features.md](features.md)
-- **Invoice** — see [features.md](features.md)
-- **Invoicelist** — see [features.md](features.md)
-- **Usebilling** — see [features.md](features.md)
