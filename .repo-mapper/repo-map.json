@@ -1,14 +1,10 @@
 {
   "name": "repo-mapper",
-  "rootPath": "C:\\sts-workspace\\general\\repo-mapper",
+  "rootPath": "/home/runner/work/repo-mapper/repo-mapper",
   "languages": [
     {
       "name": "Go",
       "fileCount": 57
-    },
-    {
-      "name": "JSON",
-      "fileCount": 2
     },
     {
       "name": "Java",
@@ -322,6 +318,6 @@
   ],
   "git": {
     "branch": "master",
-    "commitHash": "c29f73e98f2967d7533b06f18ae92d4d7b5eadb1"
+    "commitHash": "8131c68dad1b9fab7effda26f22bb0aa7b209467"
   }
 }
