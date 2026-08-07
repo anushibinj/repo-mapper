@@ -86,15 +86,29 @@ time, or whenever you want a from-scratch rebuild.
 
 ### `update` — incremental update
 
-Uses `git diff` to find changed files since a base ref (or working tree
-changes if `-base` is omitted) and only re-parses those, reusing cached
-entities for everything else. Much faster than `scan` on large repos and is
-the command intended for CI/CD (see below).
+Uses `git diff` to find changed files and only re-parses those, reusing
+cached entities for everything else. Much faster than `scan` on large repos
+and is the command intended for CI/CD (see below).
 
 ```powershell
 .\bin\repo-mapper.exe update -root .
 .\bin\repo-mapper.exe update -root . -base origin/main
 ```
+
+**Base ref resolution**, when `-base` is not given:
+1. If there are uncommitted working-tree changes, diff those against HEAD
+   (the normal local dev-loop experience).
+2. Otherwise (a **clean checkout — the typical CI state**), auto-detect the
+   base by reading the commit hash recorded in the last generated
+   `repo-map.json` and diff from there to `HEAD`. This is what makes
+   `repo-mapper update` (with zero flags) work correctly right after a
+   fresh CI checkout — a plain `git diff` would otherwise see no
+   differences and re-process nothing.
+3. If that recorded commit is no longer reachable (shallow clone, rebased
+   history, squashed merge), `update` logs a warning and transparently
+   falls back to a full `scan` instead of failing or silently skipping
+   everything. An explicitly passed `-base` is always honored as-is; if
+   *that* fails to resolve, the error is surfaced normally.
 
 **Exit codes** (important for automation):
 | Code | Meaning                                                              |

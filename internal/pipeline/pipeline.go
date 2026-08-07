@@ -4,6 +4,7 @@
 package pipeline
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -19,6 +20,13 @@ import (
 	"github.com/anushibinj/repo-mapper/internal/plugin"
 	"github.com/anushibinj/repo-mapper/internal/scanner"
 )
+
+// ErrGitDiffFailed wraps any failure from the underlying `git diff` used to
+// discover changed files. Callers (namely the `update` command) use
+// errors.Is to detect this specific failure mode — e.g. when an
+// auto-detected base ref no longer exists in a shallow CI checkout — and
+// can choose to fall back to a full scan instead of failing outright.
+var ErrGitDiffFailed = errors.New("git diff failed")
 
 // Result carries the built model plus run statistics useful for CLI output.
 type Result struct {
@@ -128,7 +136,7 @@ func IncrementalUpdate(repoRoot string, cfg *config.Config, log *logger.Logger, 
 		changed, err = repo.WorkingChanges()
 	}
 	if err != nil {
-		return nil, fmt.Errorf("git diff: %w", err)
+		return nil, fmt.Errorf("%w: %v", ErrGitDiffFailed, err)
 	}
 
 	c, err := cache.Load(cache.Dir(repoRoot))

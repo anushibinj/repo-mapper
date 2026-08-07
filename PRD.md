@@ -738,6 +738,19 @@ Regenerate only those outputs
 
 Never rebuild everything unnecessarily.
 
+> **Amendment (base ref auto-detection for CI):** A CI checkout is
+> typically clean (no uncommitted changes), so the naive "diff working tree
+> vs. HEAD" behavior used for local development would find nothing to do
+> even when many commits have landed since the last successful `update`.
+> To make `update` work correctly with zero flags in CI, when `-base` is
+> not given and the working tree is clean, `update` falls back to the
+> commit hash recorded in the last generated `repo-map.json` and diffs from
+> there to `HEAD` instead. If that recorded commit is no longer reachable
+> (shallow clone, rebased/force-pushed history, squashed merge), `update`
+> logs a warning and falls back to a full `scan` rather than failing or
+> silently doing nothing. An explicitly passed `-base` is always used as-is
+> and any failure resolving it is surfaced as a real error.
+
 ---
 
 # 18. LLM Integration
