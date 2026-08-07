@@ -1,2 +1,3 @@
 - [ ] Add a new autohandler to automatically update the .github/copilot-instructions.md file to read the entrypoint for repo-mapper to understand the repo structure instead of deep diving into the entire repo looking for context. Expose it as a proper skill if possible, so that copilot uses this skill to understand the repo/context whenever needed.
 - [ ] Add same support for gemini and claude as well (just like copilot above).
+- [ ] Show the binary version when running "repo-mapper version" using go's -ldflags option.
