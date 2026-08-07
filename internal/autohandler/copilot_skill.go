@@ -56,8 +56,10 @@ func buildSkillFile(outputDir string) string {
 	b.WriteString("description: >\n")
 	b.WriteString("  Understand the structure, architecture, and components of this repository\n")
 	b.WriteString("  by reading the repo-mapper documentation instead of crawling raw source files.\n")
-	b.WriteString("  Use this skill whenever you need context about the codebase, how it is\n")
-	b.WriteString("  organised, what technologies are used, or where specific functionality lives.\n")
+	b.WriteString("  MANDATORY: invoke this skill as the very first action in any new session,\n")
+	b.WriteString("  and before answering any question about the codebase, its architecture, file\n")
+	b.WriteString("  layout, technologies, or where specific functionality lives. Do not open any\n")
+	b.WriteString("  source file before invoking this skill.\n")
 	b.WriteString("---\n\n")
 
 	// Markdown body
