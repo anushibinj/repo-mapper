@@ -7,12 +7,16 @@
       "fileCount": 57
     },
     {
+      "name": "JSON",
+      "fileCount": 1
+    },
+    {
       "name": "Java",
       "fileCount": 7
     },
     {
       "name": "Markdown",
-      "fileCount": 3
+      "fileCount": 4
     },
     {
       "name": "Node",
@@ -318,6 +322,6 @@
   ],
   "git": {
     "branch": "master",
-    "commitHash": "ddb8b2bc237c5d7e9da31ec77baa44814c0edf1c"
+    "commitHash": "45afc0261ed0980405baa54751cb094057a1d7f6"
   }
 }

@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/anushibinj/repo-mapper/internal/autohandler"
 	"github.com/anushibinj/repo-mapper/internal/generator"
 	"github.com/anushibinj/repo-mapper/internal/pipeline"
 )
@@ -36,6 +35,11 @@ func runScan(args []string) error {
 	if existing != nil && result.Repository.EqualIgnoringGit(existing) {
 		fmt.Println("No architectural changes detected since last run (only the git commit metadata would differ).")
 		fmt.Println("Skipping documentation rewrite — nothing to commit.")
+
+		// Still run autohandlers so that missing .github files (skill,
+		// copilot-instructions) are created even when the repo map is
+		// already up to date.
+		runAutohandlers(repoRoot, cfg, log)
 		return errNoChanges
 	}
 
@@ -43,18 +47,7 @@ func runScan(args []string) error {
 		return fmt.Errorf("generate output: %w", err)
 	}
 
-	if cfg.Autohandlers.CopilotInstructions {
-		if err := autohandler.UpdateCopilotInstructions(repoRoot, cfg.Output.Directory); err != nil {
-			// Non-fatal: log the failure but don't abort the scan.
-			log.Warn("copilot-instructions autohandler failed", "error", err)
-		}
-	}
-
-	if cfg.Autohandlers.CopilotSkill {
-		if err := autohandler.UpdateCopilotSkill(repoRoot, cfg.Output.Directory); err != nil {
-			log.Warn("copilot-skill autohandler failed", "error", err)
-		}
-	}
+	runAutohandlers(repoRoot, cfg, log)
 
 	elapsed := time.Since(start)
 	fmt.Printf("Scanned %d files (%d parsed, %d cache hits) in %s\n",

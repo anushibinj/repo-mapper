@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/anushibinj/repo-mapper/internal/autohandler"
 	"github.com/anushibinj/repo-mapper/internal/config"
 	"github.com/anushibinj/repo-mapper/internal/logger"
 	"github.com/anushibinj/repo-mapper/internal/model"
@@ -71,4 +72,21 @@ func newFlagSet(name string) (*flag.FlagSet, *string) {
 	fs := flag.NewFlagSet(name, flag.ExitOnError)
 	root := fs.String("root", "", "Repository root (default: current directory)")
 	return fs, root
+}
+
+// runAutohandlers executes all enabled post-generation hooks (copilot
+// instructions, skill file, etc.) for a given repoRoot and cfg. Failures are
+// non-fatal and are only logged, so a missing .github directory or permission
+// issue never aborts the parent scan/update.
+func runAutohandlers(repoRoot string, cfg *config.Config, log *logger.Logger) {
+	if cfg.Autohandlers.CopilotInstructions {
+		if err := autohandler.UpdateCopilotInstructions(repoRoot, cfg.Output.Directory); err != nil {
+			log.Warn("copilot-instructions autohandler failed", "error", err)
+		}
+	}
+	if cfg.Autohandlers.CopilotSkill {
+		if err := autohandler.UpdateCopilotSkill(repoRoot, cfg.Output.Directory); err != nil {
+			log.Warn("copilot-skill autohandler failed", "error", err)
+		}
+	}
 }

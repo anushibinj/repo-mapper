@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/anushibinj/repo-mapper/internal/autohandler"
 	"github.com/anushibinj/repo-mapper/internal/generator"
 	gitmod "github.com/anushibinj/repo-mapper/internal/git"
 	"github.com/anushibinj/repo-mapper/internal/logger"
@@ -59,6 +58,11 @@ func runUpdate(args []string) error {
 	if existing != nil && result.Repository.EqualIgnoringGit(existing) {
 		fmt.Println("No architectural changes detected since last run (only the git commit metadata would differ).")
 		fmt.Println("Skipping documentation rewrite — nothing to commit.")
+
+		// Still run autohandlers so that missing .github files (skill,
+		// copilot-instructions) are created even when the repo map is
+		// already up to date.
+		runAutohandlers(repoRoot, cfg, log)
 		return errNoChanges
 	}
 
@@ -66,17 +70,7 @@ func runUpdate(args []string) error {
 		return fmt.Errorf("generate output: %w", err)
 	}
 
-	if cfg.Autohandlers.CopilotInstructions {
-		if err := autohandler.UpdateCopilotInstructions(repoRoot, cfg.Output.Directory); err != nil {
-			log.Warn("copilot-instructions autohandler failed", "error", err)
-		}
-	}
-
-	if cfg.Autohandlers.CopilotSkill {
-		if err := autohandler.UpdateCopilotSkill(repoRoot, cfg.Output.Directory); err != nil {
-			log.Warn("copilot-skill autohandler failed", "error", err)
-		}
-	}
+	runAutohandlers(repoRoot, cfg, log)
 
 	elapsed := time.Since(start)
 	fmt.Printf("Re-parsed %d changed files (%d files known total) in %s\n",
