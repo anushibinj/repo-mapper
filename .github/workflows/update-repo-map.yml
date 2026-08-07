@@ -1,0 +1,115 @@
+# Reusable workflow — call this from any repository to keep its
+# .repo-mapper/ documentation automatically up to date on every push.
+#
+# All inputs are optional. The minimal usage is:
+#
+#   jobs:
+#     repo-map:
+#       permissions:
+#         contents: write
+#       uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+#
+# See the "GitHub Actions CI integration" section in README.md for the full
+# annotated example with all available inputs.
+
+name: Update Repo Map (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      repo-mapper-version:
+        description: >
+          Version of repo-mapper to install.
+          Use 'latest' for the newest release or pin to a tag, e.g. 'v0.1.0'.
+        type: string
+        default: latest
+      go-version:
+        description: >
+          Go toolchain version used to install repo-mapper.
+          'stable' tracks the current stable release.
+        type: string
+        default: stable
+      commit-message:
+        description: Commit message used when pushing updated documentation.
+        type: string
+        default: 'chore: update repo-mapper documentation [skip ci]'
+      committer-name:
+        description: Git author name for the automated commit.
+        type: string
+        default: github-actions[bot]
+      committer-email:
+        description: Git author e-mail for the automated commit.
+        type: string
+        default: github-actions[bot]@users.noreply.github.com
+
+jobs:
+  update-repo-map:
+    runs-on: ubuntu-latest
+
+    # The job needs write access to push the updated docs back.
+    # Callers must grant this at the job or workflow level:
+    #   permissions:
+    #     contents: write
+    permissions:
+      contents: write
+
+    steps:
+      # Full history so `repo-mapper update` can diff against the commit
+      # recorded in the last generated .repo-mapper/repo-map.json.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+          # The calling repo has no go.sum for this module, so skip
+          # the module-cache restore that would look for one.
+          cache: false
+
+      - name: Install repo-mapper
+        run: |
+          go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@${{ inputs.repo-mapper-version }}
+
+      # Run an incremental update. Exit code 3 means "no architectural
+      # changes since last run" — that is not a failure, so we capture the
+      # exit code explicitly (with set +e) and only propagate real errors
+      # (exit code 1).
+      - name: Run repo-mapper update
+        run: |
+          set +e
+          repo-mapper update
+          EXIT_CODE=$?
+          set -e
+          if [ "$EXIT_CODE" -eq 1 ]; then
+            echo "repo-mapper update failed with an unexpected error (exit $EXIT_CODE)"
+            exit 1
+          fi
+          # EXIT_CODE 0 = changes written, 3 = no architectural changes — both OK
+          echo "repo-mapper exited with code $EXIT_CODE"
+
+      # Stage every file that repo-mapper may have touched:
+      #   .repo-mapper/     — generated documentation (always commit)
+      #   .github/          — copilot-instructions.md and skills/ (autohandlers)
+      # The cache sub-directory (.repo-mapper/cache/) is covered by
+      # .repo-mapper/.gitignore, so git will never stage it.
+      - name: Commit and push updated documentation
+        run: |
+          git config user.name  "${{ inputs.committer-name }}"
+          git config user.email "${{ inputs.committer-email }}"
+
+          git add \
+            .repo-mapper/ \
+            .github/copilot-instructions.md \
+            ".github/skills/" \
+            || true
+
+          if git diff --cached --quiet; then
+            echo "Nothing changed — skipping commit."
+            exit 0
+          fi
+
+          git commit -m "${{ inputs.commit-message }}"
+          git push

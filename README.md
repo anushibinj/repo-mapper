@@ -219,6 +219,86 @@ case $? in
 esac
 ```
 
+## GitHub Actions CI integration
+
+Repo Mapper ships a reusable GitHub Actions workflow that you can call
+directly from any repository — no copy-pasting required.
+
+### Minimal setup
+
+Create `.github/workflows/repo-map.yml` in **your repository** with the
+following content. All inputs are optional — this is all you need:
+
+```yaml
+name: Repo Map
+
+on:
+  push:
+    branches: [main]      # adjust to your default branch
+
+jobs:
+  repo-map:
+    permissions:
+      contents: write     # required: the job pushes the updated docs back
+    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+```
+
+### Full example with all inputs
+
+```yaml
+name: Repo Map
+
+on:
+  push:
+    branches: [main]      # (mandatory in your workflow) branch(es) to watch
+  workflow_dispatch:      # optional: allow manual runs from the Actions tab
+
+jobs:
+  repo-map:
+    permissions:
+      contents: write     # (mandatory) allows the job to push the updated docs
+
+    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+    with:
+      # ── optional inputs (shown with their defaults) ──────────────────────
+
+      # Version of repo-mapper to install.
+      # Use 'latest' to always get the newest release, or pin to a tag
+      # (e.g. 'v0.2.0') for reproducible builds.
+      repo-mapper-version: latest
+
+      # Go toolchain version used only to install repo-mapper.
+      # 'stable' always resolves to the current stable Go release.
+      go-version: stable
+
+      # Commit message written when the docs are updated.
+      # '[skip ci]' prevents this commit from triggering another workflow run.
+      commit-message: 'chore: update repo-mapper documentation [skip ci]'
+
+      # Git author identity for the automated commit.
+      committer-name: github-actions[bot]
+      committer-email: github-actions[bot]@users.noreply.github.com
+```
+
+### How the workflow behaves
+
+1. **Checks out** your repository with full history (`fetch-depth: 0`) so
+   the incremental update can diff against the commit hash recorded in the
+   last generated `.repo-mapper/repo-map.json`.
+2. **Installs** `repo-mapper` from the Go module proxy — no binary download
+   or pre-built asset required.
+3. **Runs** `repo-mapper update`. Exit code `3` ("no architectural changes")
+   is treated as success; only exit code `1` fails the job.
+4. **Commits and pushes** any changed files under `.repo-mapper/`,
+   `.github/copilot-instructions.md`, and `.github/skills/`. If nothing
+   changed, the commit step is skipped entirely (no empty commits).
+
+> **Note on push protection** — if your default branch has required status
+> checks or branch protection rules that block direct pushes, grant the
+> `github-actions[bot]` user bypass rights, or configure a deploy key /
+> PAT with elevated permissions and pass it via the `token` secret of
+> `actions/checkout`.
+
 ## Development environment setup
 
 1. **Install Go 1.26+** (check with `go version`).
