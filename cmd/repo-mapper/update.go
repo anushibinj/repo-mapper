@@ -72,6 +72,12 @@ func runUpdate(args []string) error {
 		}
 	}
 
+	if cfg.Autohandlers.CopilotSkill {
+		if err := autohandler.UpdateCopilotSkill(repoRoot, cfg.Output.Directory); err != nil {
+			log.Warn("copilot-skill autohandler failed", "error", err)
+		}
+	}
+
 	elapsed := time.Since(start)
 	fmt.Printf("Re-parsed %d changed files (%d files known total) in %s\n",
 		result.FilesParsed, result.FilesScanned, elapsed.Round(time.Millisecond))

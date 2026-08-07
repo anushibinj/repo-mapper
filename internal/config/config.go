@@ -24,6 +24,11 @@ type AutohandlerConfig struct {
 	// .github/copilot-instructions.md after every scan/update so that
 	// GitHub Copilot reads the repo-mapper entrypoint for context.
 	CopilotInstructions bool `yaml:"copilot_instructions"`
+	// CopilotSkill, when true (the default), writes
+	// .github/skills/understand-repo/SKILL.md after every scan/update so
+	// that GitHub Copilot CLI discovers and can invoke the skill via
+	// /skills list.
+	CopilotSkill bool `yaml:"copilot_skill"`
 }
 
 // ScanConfig controls file discovery.
@@ -79,6 +84,7 @@ func Default() *Config {
 		},
 		Autohandlers: AutohandlerConfig{
 			CopilotInstructions: true,
+			CopilotSkill:        true,
 		},
 	}
 }

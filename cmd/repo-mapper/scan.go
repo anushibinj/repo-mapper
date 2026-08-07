@@ -50,6 +50,12 @@ func runScan(args []string) error {
 		}
 	}
 
+	if cfg.Autohandlers.CopilotSkill {
+		if err := autohandler.UpdateCopilotSkill(repoRoot, cfg.Output.Directory); err != nil {
+			log.Warn("copilot-skill autohandler failed", "error", err)
+		}
+	}
+
 	elapsed := time.Since(start)
 	fmt.Printf("Scanned %d files (%d parsed, %d cache hits) in %s\n",
 		result.FilesScanned, result.FilesParsed, result.CacheHits, elapsed.Round(time.Millisecond))
