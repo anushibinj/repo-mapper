@@ -3,16 +3,12 @@
   "rootPath": "/home/runner/work/repo-mapper/repo-mapper",
   "languages": [
     {
-      "name": "Go",
-      "fileCount": 2
-    },
-    {
       "name": "JSON",
-      "fileCount": 4
+      "fileCount": 1
     },
     {
       "name": "Markdown",
-      "fileCount": 6
+      "fileCount": 3
     },
     {
       "name": "YAML",
@@ -27,6 +23,6 @@
   "tables": [],
   "git": {
     "branch": "master",
-    "commitHash": "97109e65578507569bc176f08c6bdbbab5324202"
+    "commitHash": "c088299624caacc180f116eebbf492bc6853f3ca"
   }
 }
