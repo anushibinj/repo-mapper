@@ -73,25 +73,26 @@ jobs:
         run: |
           go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@${{ inputs.repo-mapper-version }}
 
-      # If the repo has never been scanned, run a full scan first.
-      # Otherwise run an incremental update. Exit code 3 means "no
-      # architectural changes since last run" — that is not a failure, so
-      # we capture the exit code explicitly (with set +e) and only
-      # propagate real errors (exit code 1).
-      - name: Run repo-mapper scan or update
+      # Always run a full scan in CI. The incremental `update` command
+      # relies on a warm on-disk cache (.repo-mapper/cache/) to build the
+      # complete repository model, but that cache is gitignored and never
+      # committed. Every CI checkout therefore starts with a cold cache,
+      # meaning `update` can only see the files that changed in the diff —
+      # not the full codebase — and silently overwrites valid documentation
+      # with a near-empty result. `scan` always walks the full tree, so it
+      # is safe to run on every push regardless of cache state.
+      #
+      # Exit code 3 means "no architectural changes since last run" —
+      # that is not a failure, so we capture the exit code explicitly
+      # (with set +e) and only propagate real errors (exit code 1).
+      - name: Run repo-mapper scan
         run: |
           set +e
-          if [ ! -d ".repo-mapper" ]; then
-            echo ".repo-mapper directory not found — running full scan for the first time."
-            repo-mapper scan
-          else
-            echo ".repo-mapper directory exists — running incremental update."
-            repo-mapper update
-          fi
+          repo-mapper scan
           EXIT_CODE=$?
           set -e
           if [ "$EXIT_CODE" -eq 1 ]; then
-            echo "repo-mapper failed with an unexpected error (exit $EXIT_CODE)"
+            echo "repo-mapper scan failed with an unexpected error (exit $EXIT_CODE)"
             exit 1
           fi
           # EXIT_CODE 0 = changes written, 3 = no architectural changes — both OK
