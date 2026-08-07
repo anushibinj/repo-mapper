@@ -73,18 +73,25 @@ jobs:
         run: |
           go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@${{ inputs.repo-mapper-version }}
 
-      # Run an incremental update. Exit code 3 means "no architectural
-      # changes since last run" — that is not a failure, so we capture the
-      # exit code explicitly (with set +e) and only propagate real errors
-      # (exit code 1).
-      - name: Run repo-mapper update
+      # If the repo has never been scanned, run a full scan first.
+      # Otherwise run an incremental update. Exit code 3 means "no
+      # architectural changes since last run" — that is not a failure, so
+      # we capture the exit code explicitly (with set +e) and only
+      # propagate real errors (exit code 1).
+      - name: Run repo-mapper scan or update
         run: |
           set +e
-          repo-mapper update
+          if [ ! -d ".repo-mapper" ]; then
+            echo ".repo-mapper directory not found — running full scan for the first time."
+            repo-mapper scan
+          else
+            echo ".repo-mapper directory exists — running incremental update."
+            repo-mapper update
+          fi
           EXIT_CODE=$?
           set -e
           if [ "$EXIT_CODE" -eq 1 ]; then
-            echo "repo-mapper update failed with an unexpected error (exit $EXIT_CODE)"
+            echo "repo-mapper failed with an unexpected error (exit $EXIT_CODE)"
             exit 1
           fi
           # EXIT_CODE 0 = changes written, 3 = no architectural changes — both OK
