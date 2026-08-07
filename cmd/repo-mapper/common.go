@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -8,7 +10,33 @@ import (
 
 	"github.com/anushibinj/repo-mapper/internal/config"
 	"github.com/anushibinj/repo-mapper/internal/logger"
+	"github.com/anushibinj/repo-mapper/internal/model"
 )
+
+// errNoChanges is a sentinel returned by scan/update when the freshly built
+// model is identical to the previously written repo-map.json apart from Git
+// metadata. Callers (main) translate it into a distinct exit code so
+// automation can tell "nothing to commit" apart from a real failure, instead
+// of parsing stdout.
+var errNoChanges = errors.New("no architectural changes since last run (only git metadata would differ)")
+
+// loadExistingRepository reads outputDir/repo-map.json from a previous run,
+// if present. A missing file is not an error — it just means there is
+// nothing to compare against yet (e.g. first run).
+func loadExistingRepository(outputDir string) (*model.Repository, error) {
+	data, err := os.ReadFile(filepath.Join(outputDir, "repo-map.json"))
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	var repo model.Repository
+	if err := json.Unmarshal(data, &repo); err != nil {
+		return nil, err
+	}
+	return &repo, nil
+}
 
 // resolveRepoRoot returns an absolute path for the given (possibly empty,
 // meaning cwd) root argument.

@@ -831,6 +831,28 @@ Push
 
 Should execute automatically after successful builds.
 
+> **Amendment (avoiding a commit loop):** `repo-map.json` embeds the current
+> commit hash/branch at generation time (`GitInfo`). Since a generated
+> artifact can never contain the hash of the commit that first introduces it,
+> naively committing `scan`/`update` output after every run and re-running
+> in CI would otherwise change on every single invocation (the SHA always
+> differs) and could loop forever if the pipeline re-triggers on its own
+> commits. To break this, both `scan` and `update` compare the freshly built
+> model against the previously written `repo-map.json`, **ignoring
+> `git.branch`/`git.commitHash`**. If nothing else changed, the command
+> prints a "no architectural changes" message, skips rewriting the output
+> directory, and exits with code `3` (as opposed to `0` for "wrote changes"
+> and `1` for a real error). CI should treat exit code `3` as "nothing to
+> commit" rather than a failure, e.g.:
+> ```
+> repo-mapper update
+> case $? in
+>   0) git add .repo-mapper && git commit -m "docs: update repo map" ;;
+>   3) echo "no changes to commit" ;;
+>   *) exit 1 ;;
+> esac
+> ```
+
 ---
 
 # 21. Performance Targets

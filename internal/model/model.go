@@ -3,6 +3,8 @@
 // output. Nothing outside this package should be treated as authoritative.
 package model
 
+import "reflect"
+
 // Repository is the root of the canonical model.
 type Repository struct {
 	Name       string      `json:"name"`
@@ -15,6 +17,24 @@ type Repository struct {
 	APIs       []API       `json:"apis"`
 	Tables     []Table     `json:"tables"`
 	Git        GitInfo     `json:"git,omitempty"`
+}
+
+// EqualIgnoringGit reports whether two Repository models are identical
+// apart from their Git metadata (branch/commit hash). It exists so callers
+// (namely the `update`/`scan` commands) can detect the "nothing architecturally
+// changed, only the embedded commit SHA moved" case: since a generated
+// artifact can never contain the hash of the commit that first introduces it,
+// re-running the tool after committing its own output would otherwise always
+// report a change and could loop forever in automation. Comparing with Git
+// zeroed out breaks that loop by only treating real content changes as
+// "changed".
+func (r *Repository) EqualIgnoringGit(other *Repository) bool {
+	if r == nil || other == nil {
+		return r == other
+	}
+	a, b := *r, *other
+	a.Git, b.Git = GitInfo{}, GitInfo{}
+	return reflect.DeepEqual(a, b)
 }
 
 // Language represents a detected programming language and its footprint.

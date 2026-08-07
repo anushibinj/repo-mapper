@@ -28,6 +28,17 @@ func runUpdate(args []string) error {
 	}
 
 	outputDir := filepath.Join(repoRoot, cfg.Output.Directory)
+
+	existing, err := loadExistingRepository(outputDir)
+	if err != nil {
+		return fmt.Errorf("read existing output: %w", err)
+	}
+	if existing != nil && result.Repository.EqualIgnoringGit(existing) {
+		fmt.Println("No architectural changes detected since last run (only the git commit metadata would differ).")
+		fmt.Println("Skipping documentation rewrite — nothing to commit.")
+		return errNoChanges
+	}
+
 	if err := generator.WriteAll(result.Repository, outputDir); err != nil {
 		return fmt.Errorf("generate output: %w", err)
 	}

@@ -3,6 +3,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -58,6 +59,11 @@ func main() {
 	}
 
 	if err != nil {
+		if errors.Is(err, errNoChanges) {
+			// Distinct exit code so automation can tell "nothing to
+			// commit" apart from a real failure without parsing stdout.
+			os.Exit(3)
+		}
 		fmt.Fprintf(os.Stderr, "repo-mapper: %v\n", err)
 		os.Exit(1)
 	}
