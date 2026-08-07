@@ -1,0 +1,7 @@
+flowchart TD
+    BillingPage[BillingPage]
+    InvoiceList(InvoiceList)
+    useBilling{{useBilling}}
+    REST[[REST API]]
+    BillingPage --> useBilling
+    useBilling --> REST
