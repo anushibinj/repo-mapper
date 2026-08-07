@@ -3,13 +3,13 @@
 
 This repository is documented by [repo-mapper](https://github.com/anushibinj/repo-mapper).
 
-**Before exploring source files**, read the repository map to get a structured
-overview of the architecture, components, and file layout:
+**BLOCKING REQUIREMENT**: Before exploring any source file, opening any directory,
+or answering any question about the codebase, you MUST invoke the `understand-repo`
+skill first. Do not read `.repo-mapper/README.md` or any other file directly — invoke the skill
+and follow its instructions. Invoking the skill IS the required entry point;
+skipping it and going straight to files is not allowed.
 
-- [`.repo-mapper/README.md`](.repo-mapper/README.md) — repo-mapper entrypoint: languages, modules, and links to all
-  detailed views (backend, frontend, database, architecture, features).
-
-Use the linked files in that directory to understand the codebase structure.
+Use the linked files in the `.repo-mapper/` directory (surfaced by the skill) to understand the codebase structure.
 Only open individual source files when you need implementation details that
 the map does not cover.
 <!-- repo-mapper:end -->

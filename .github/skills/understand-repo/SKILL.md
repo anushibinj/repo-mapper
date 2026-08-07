@@ -3,8 +3,10 @@ name: understand-repo
 description: >
   Understand the structure, architecture, and components of this repository
   by reading the repo-mapper documentation instead of crawling raw source files.
-  Use this skill whenever you need context about the codebase, how it is
-  organised, what technologies are used, or where specific functionality lives.
+  MANDATORY: invoke this skill as the very first action in any new session,
+  and before answering any question about the codebase, its architecture, file
+  layout, technologies, or where specific functionality lives. Do not open any
+  source file before invoking this skill.
 ---
 
 # understand-repo

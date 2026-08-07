@@ -4,19 +4,19 @@
   "languages": [
     {
       "name": "Go",
-      "fileCount": 8
+      "fileCount": 2
     },
     {
       "name": "JSON",
-      "fileCount": 1
+      "fileCount": 4
     },
     {
       "name": "Markdown",
-      "fileCount": 2
+      "fileCount": 6
     },
     {
       "name": "YAML",
-      "fileCount": 2
+      "fileCount": 1
     }
   ],
   "modules": null,
@@ -27,6 +27,6 @@
   "tables": [],
   "git": {
     "branch": "master",
-    "commitHash": "01f7b7e3526689ae23ddbea10766b5a9c3c3c1a0"
+    "commitHash": "97109e65578507569bc176f08c6bdbbab5324202"
   }
 }
