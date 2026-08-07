@@ -7,7 +7,7 @@
 #     repo-map:
 #       permissions:
 #         contents: write
-#       uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+#       uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@master
 #
 # See the "GitHub Actions CI integration" section in README.md for the full
 # annotated example with all available inputs.

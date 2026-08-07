@@ -92,7 +92,7 @@ and is the command intended for CI/CD (see below).
 
 ```powershell
 .\bin\repo-mapper.exe update -root .
-.\bin\repo-mapper.exe update -root . -base origin/main
+.\bin\repo-mapper.exe update -root . -base origin/master
 ```
 
 **Base ref resolution**, when `-base` is not given:
@@ -234,13 +234,13 @@ name: Repo Map
 
 on:
   push:
-    branches: [main]      # adjust to your default branch
+    branches: [master]      # adjust to your default branch
 
 jobs:
   repo-map:
     permissions:
       contents: write     # required: the job pushes the updated docs back
-    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@master
 ```
 
 ### Full example with all inputs
@@ -250,7 +250,7 @@ name: Repo Map
 
 on:
   push:
-    branches: [main]      # (mandatory in your workflow) branch(es) to watch
+    branches: [master]      # (mandatory in your workflow) branch(es) to watch
   workflow_dispatch:      # optional: allow manual runs from the Actions tab
 
 jobs:
@@ -258,7 +258,7 @@ jobs:
     permissions:
       contents: write     # (mandatory) allows the job to push the updated docs
 
-    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@main
+    uses: anushibinj/repo-mapper/.github/workflows/update-repo-map.yml@master
     with:
       # ── optional inputs (shown with their defaults) ──────────────────────
 
