@@ -4,11 +4,7 @@
   "languages": [
     {
       "name": "Go",
-      "fileCount": 51
-    },
-    {
-      "name": "JSON",
-      "fileCount": 5
+      "fileCount": 55
     },
     {
       "name": "Java",
@@ -16,7 +12,7 @@
     },
     {
       "name": "Markdown",
-      "fileCount": 8
+      "fileCount": 4
     },
     {
       "name": "Node",
@@ -322,6 +318,6 @@
   ],
   "git": {
     "branch": "master",
-    "commitHash": "34ee404e2adf14b1019f99f8a091bac187beb24c"
+    "commitHash": "9df8f00d3bad039de096cf8f762db39f9b044299"
   }
 }

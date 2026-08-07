@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/anushibinj/repo-mapper/internal/autohandler"
 	"github.com/anushibinj/repo-mapper/internal/generator"
 	"github.com/anushibinj/repo-mapper/internal/pipeline"
 )
@@ -40,6 +41,13 @@ func runScan(args []string) error {
 
 	if err := generator.WriteAll(result.Repository, outputDir); err != nil {
 		return fmt.Errorf("generate output: %w", err)
+	}
+
+	if cfg.Autohandlers.CopilotInstructions {
+		if err := autohandler.UpdateCopilotInstructions(repoRoot, cfg.Output.Directory); err != nil {
+			// Non-fatal: log the failure but don't abort the scan.
+			log.Warn("copilot-instructions autohandler failed", "error", err)
+		}
 	}
 
 	elapsed := time.Since(start)

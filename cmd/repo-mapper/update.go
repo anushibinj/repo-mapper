@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/anushibinj/repo-mapper/internal/autohandler"
 	"github.com/anushibinj/repo-mapper/internal/generator"
 	gitmod "github.com/anushibinj/repo-mapper/internal/git"
 	"github.com/anushibinj/repo-mapper/internal/logger"
@@ -63,6 +64,12 @@ func runUpdate(args []string) error {
 
 	if err := generator.WriteAll(result.Repository, outputDir); err != nil {
 		return fmt.Errorf("generate output: %w", err)
+	}
+
+	if cfg.Autohandlers.CopilotInstructions {
+		if err := autohandler.UpdateCopilotInstructions(repoRoot, cfg.Output.Directory); err != nil {
+			log.Warn("copilot-instructions autohandler failed", "error", err)
+		}
 	}
 
 	elapsed := time.Since(start)

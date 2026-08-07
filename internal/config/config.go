@@ -10,10 +10,20 @@ import (
 
 // Config is the root configuration structure, mirroring PRD section 19.
 type Config struct {
-	Scan    ScanConfig      `yaml:"scan"`
-	Output  OutputConfig    `yaml:"output"`
-	LLM     LLMConfig       `yaml:"llm"`
-	Plugins map[string]bool `yaml:"plugins"`
+	Scan         ScanConfig         `yaml:"scan"`
+	Output       OutputConfig       `yaml:"output"`
+	LLM          LLMConfig          `yaml:"llm"`
+	Plugins      map[string]bool    `yaml:"plugins"`
+	Autohandlers AutohandlerConfig  `yaml:"autohandlers"`
+}
+
+// AutohandlerConfig controls the optional post-generation hooks that update
+// adjacent repository files (e.g. .github/copilot-instructions.md).
+type AutohandlerConfig struct {
+	// CopilotInstructions, when true (the default), writes or updates
+	// .github/copilot-instructions.md after every scan/update so that
+	// GitHub Copilot reads the repo-mapper entrypoint for context.
+	CopilotInstructions bool `yaml:"copilot_instructions"`
 }
 
 // ScanConfig controls file discovery.
@@ -66,6 +76,9 @@ func Default() *Config {
 			"node":   true,
 			"docker": true,
 			"sql":    true,
+		},
+		Autohandlers: AutohandlerConfig{
+			CopilotInstructions: true,
 		},
 	}
 }
