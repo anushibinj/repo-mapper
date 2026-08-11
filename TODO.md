@@ -4,4 +4,4 @@
 - [ ] Add instructions in the README explaining how to install the go binary from git (`go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@latest`)
 - [ ] Move the .cache folder to within the .repo-mapper folder itself and take care of gitignore accordingly
 - [ ] Add instructions in README.md explaining how to setup CI to update the repo map with every push. Always install the repo-mapper extension using the `go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@latest` command.
-- [ ] Does the repo-mapper update command make sense?
+- [x] Does the repo-mapper update command make sense? Yes as suggested by copilot)
