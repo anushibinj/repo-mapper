@@ -5,5 +5,5 @@
 - [x] Move the .cache folder to within the .repo-mapper folder itself and take care of gitignore accordingly
 - [x] Add instructions in README.md explaining how to setup CI to update the repo map with every push. Always install the repo-mapper extension using the `go install github.com/anushibinj/repo-mapper/cmd/repo-mapper@latest` command.
 - [x] Does the repo-mapper update command make sense? Yes as suggested by copilot)
-- [ ] Users should be able to turn on/off the repo-mapper injection into the copilot chat as per their wish. My idea is to maintain a git-untracked file called "./.repo-mapper/repo-mapper-enabled" with "false" inside. Update the copilot instruction and skill to read this file to see if repo-mapper needs to be executed or not.
+- [x] Users should be able to turn on/off the repo-mapper injection into the copilot chat as per their wish. My idea is to maintain a git-untracked file called "./.repo-mapper/repo-mapper-enabled" with "false" inside. Update the copilot instruction and skill to read this file to see if repo-mapper needs to be executed or not.
 - [ ] Provide a sample `gitlab-ci.yml` example in `README.md` that works with GitLab the same way there is an example for GitHub Workflows/Actions.
