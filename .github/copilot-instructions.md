@@ -20,10 +20,16 @@
 This repository is documented by [repo-mapper](https://github.com/anushibinj/repo-mapper).
 
 **BLOCKING REQUIREMENT**: Before exploring any source file, opening any directory,
-or answering any question about the codebase, you MUST invoke the `understand-repo`
-skill first. Do not read `.repo-mapper/README.md` or any other file directly — invoke the skill
-and follow its instructions. Invoking the skill IS the required entry point;
-skipping it and going straight to files is not allowed.
+or answering any question about the codebase, check whether repo-mapper is enabled
+by reading `.repo-mapper/repo-mapper-enabled`.
+
+- If the file **does not exist**, or its contents (trimmed) equal `true`, repo-mapper
+  is **enabled**: you MUST invoke the `understand-repo` skill as your very first action.
+  Do not read `.repo-mapper/README.md` or any other file directly — invoke the skill
+  and follow its instructions. Invoking the skill IS the required entry point;
+  skipping it and going straight to files is not allowed.
+- If the file exists and its contents (trimmed) equal `false`, repo-mapper is
+  **disabled**: skip the skill entirely and explore the codebase as you normally would.
 
 Use the linked files in the `.repo-mapper/` directory (surfaced by the skill) to understand the codebase structure.
 Only open individual source files when you need implementation details that

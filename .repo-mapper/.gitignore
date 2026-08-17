@@ -1,2 +1,5 @@
 # Repo Mapper cache (performance-only, not meant to be versioned)
 cache/
+
+# User-local toggle — not versioned so each developer can opt in/out independently
+repo-mapper-enabled

@@ -204,6 +204,26 @@ Any field you omit falls back to the default shown above.
   (per-file hashes + parsed entities) that churns on every run and has no
   reader value. Repo Mapper automatically ensures `.cache/` is covered by
   your `.gitignore` on every `scan`/`update` — no manual setup required.
+- **`.repo-mapper/repo-mapper-enabled`** — never commit this (it is listed
+  in `.repo-mapper/.gitignore` automatically). When absent (the default) repo-mapper
+  is enabled; create the file with contents `false` to disable the Copilot chat
+  injection locally.
+
+## Disabling Copilot chat injection
+
+By default, every Copilot chat session in this repository is instructed to
+invoke the `understand-repo` skill before exploring the codebase. If you want
+to turn this off locally (e.g. to test the codebase without the repo-mapper
+overlay, or because the maps are stale), create the file:
+
+```
+.repo-mapper/repo-mapper-enabled
+```
+
+and set its contents to `false`. When the file is absent (the default), or
+when its contents are `true`, repo-mapper injection is enabled.
+The file is git-ignored so the change is local to your machine and never
+affects other contributors.
 
 ## CI/CD
 
