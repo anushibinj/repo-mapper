@@ -11,6 +11,18 @@ description: >
 
 # understand-repo
 
+## Toggle check — do this first
+
+Before doing anything else, read `.repo-mapper/repo-mapper-enabled`:
+
+- If the file **does not exist**, or its trimmed contents equal `true` → repo-mapper
+  is **enabled**. Continue with Step 1 below.
+- If the file exists and its trimmed contents equal `false` → repo-mapper is
+  **disabled**. Stop immediately. Do **not** read any `.repo-mapper/` files.
+  Explore the codebase normally (grep / glob / view as you would without this skill).
+
+---
+
 When you need to understand this repository — its architecture, module layout,
 technologies, APIs, database schema, or feature ownership — **read the
 repo-mapper documentation first**. It is a structured, always-up-to-date map
