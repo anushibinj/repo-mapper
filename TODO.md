@@ -7,3 +7,4 @@
 - [x] Does the repo-mapper update command make sense? Yes as suggested by copilot)
 - [x] Users should be able to turn on/off the repo-mapper injection into the copilot chat as per their wish. My idea is to maintain a git-untracked file called "./.repo-mapper/repo-mapper-enabled" with "false" inside. Update the copilot instruction and skill to read this file to see if repo-mapper needs to be executed or not.
 - [ ] Provide a sample `gitlab-ci.yml` example in `README.md` that works with GitLab the same way there is an example for GitHub Workflows/Actions.
+- [ ] Test the gitlab-ci.yml file with inclusion mode instead of hardcoding the action in the workflow itself.
